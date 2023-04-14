@@ -8,7 +8,12 @@ namespace Centralizador2023.Controllers
     [Route("api/programador")]
     public class ProgramadorController : ControllerBase
     {
-        private readonly ImplProgramadorRepository repo = new ImplProgramadorRepository();
+        private readonly IProgramadorRepository repo;
+        public ProgramadorController(IProgramadorRepository repo)
+        {
+            this.repo = repo;
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<Programador>> GetProgramadores() {
             var programadores = repo.GetProgramadores();

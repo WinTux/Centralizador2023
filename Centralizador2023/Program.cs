@@ -1,3 +1,6 @@
+using Centralizador2023.Repositorios;
+using Microsoft.EntityFrameworkCore;
+
 namespace Centralizador2023
 {
     public class Program
@@ -9,6 +12,9 @@ namespace Centralizador2023
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddDbContext<InstitutoXDbContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("una_conexion")));
+            builder.Services.AddScoped<IEstudianteRepository,ImplEstudianteRepository>();
 
             var app = builder.Build();
 
