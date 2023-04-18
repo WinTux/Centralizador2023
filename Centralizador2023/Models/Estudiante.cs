@@ -17,9 +17,9 @@ namespace Centralizador2023.Models
         [Required]
         public DateTime fecha_nac { get; set; }
         [MaxLength(100)]
-        public string email { get; set; }
+        public string? email { get; set; }
         [MaxLength(60)]
-        public string direccion { get; set; }
+        public string? direccion { get; set; }
 
     }
 }

@@ -19,13 +19,13 @@ namespace Centralizador2023.Controllers
             this.mapper = mapper;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Estudiante>> getestudiantes()
+        public ActionResult<IEnumerable<EstudianteReadDTO>> getestudiantes()
         {
-            var ests = estRepo.GetEstudiantes();//Modificar con DTO
+            var ests = estRepo.GetEstudiantes();
             return Ok(mapper.Map<IEnumerable<EstudianteReadDTO>>(ests));
         }
         [HttpGet("{ci}", Name = "getestudiante")]
-        public ActionResult<Estudiante> getestudiante(int ci)
+        public ActionResult<EstudianteReadDTO> getestudiante(int ci)
         {
             Estudiante est = estRepo.GetEstudianteByCi(ci);
             if(est != null)
