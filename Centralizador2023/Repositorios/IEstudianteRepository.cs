@@ -6,5 +6,8 @@ namespace Centralizador2023.Repositorios
     {
         IEnumerable<Estudiante> GetEstudiantes();
         Estudiante GetEstudianteByCi(int ci);
+        void AddEstudiante(Estudiante est);
+        bool Guardar();
+        void UpdateEstudiante(Estudiante est);
     }
 }

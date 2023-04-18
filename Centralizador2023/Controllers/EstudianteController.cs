@@ -22,15 +22,24 @@ namespace Centralizador2023.Controllers
         public ActionResult<IEnumerable<Estudiante>> getestudiantes()
         {
             var ests = estRepo.GetEstudiantes();//Modificar con DTO
-            return Ok(ests);
+            return Ok(mapper.Map<IEnumerable<EstudianteReadDTO>>(ests));
         }
-        [HttpGet("{ci}")]
+        [HttpGet("{ci}", Name = "getestudiante")]
         public ActionResult<Estudiante> getestudiante(int ci)
         {
             Estudiante est = estRepo.GetEstudianteByCi(ci);
             if(est != null)
                 return Ok(mapper.Map<EstudianteReadDTO>(est));
             return NotFound();
+        }
+        [HttpPost]
+        public ActionResult<EstudianteReadDTO> setestudiantes(EstudianteCreateDTO estCreateDTO)
+        {
+            Estudiante estudiante = mapper.Map<Estudiante>(estCreateDTO);
+            estRepo.AddEstudiante(estudiante);
+            estRepo.Guardar();
+            EstudianteReadDTO estRetorno = mapper.Map<EstudianteReadDTO>(estudiante);
+            return CreatedAtRoute(nameof(getestudiante), new { ci = estRetorno.ci }, estRetorno);
         }
     }
 }
