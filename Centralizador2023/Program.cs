@@ -1,5 +1,6 @@
 using Centralizador2023.Repositorios;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 
 namespace Centralizador2023
 {
@@ -11,7 +12,7 @@ namespace Centralizador2023
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddNewtonsoftJson( s => s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddDbContext<InstitutoXDbContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("una_conexion")));
             builder.Services.AddScoped<IEstudianteRepository,ImplEstudianteRepository>();

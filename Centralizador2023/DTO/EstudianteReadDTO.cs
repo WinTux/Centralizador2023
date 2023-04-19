@@ -6,5 +6,6 @@
         public string nombre { get; set; }
         public string apellido { get; set; }
         public DateTime fecha_nac { get; set; }
+        public string? email { get; set; }
     }
 }

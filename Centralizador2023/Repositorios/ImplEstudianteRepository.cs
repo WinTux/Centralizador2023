@@ -17,6 +17,11 @@ namespace Centralizador2023.Repositorios
             cont.Estudiantes.Add(est);
         }
 
+        public void ElimanrEstudiante(Estudiante est)
+        {
+            //Continuar!!
+        }
+
         public Estudiante GetEstudianteByCi(int ci)
         {
             return cont.Estudiantes.FirstOrDefault(est => est.ci == ci);

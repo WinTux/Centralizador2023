@@ -9,5 +9,6 @@ namespace Centralizador2023.Repositorios
         void AddEstudiante(Estudiante est);
         bool Guardar();
         void UpdateEstudiante(Estudiante est);
+        void ElimanrEstudiante(Estudiante est);
     }
 }

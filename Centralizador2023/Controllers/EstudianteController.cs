@@ -2,6 +2,7 @@
 using Centralizador2023.DTO;
 using Centralizador2023.Models;
 using Centralizador2023.Repositorios;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Centralizador2023.Controllers
@@ -40,6 +41,33 @@ namespace Centralizador2023.Controllers
             estRepo.Guardar();
             EstudianteReadDTO estRetorno = mapper.Map<EstudianteReadDTO>(estudiante);
             return CreatedAtRoute(nameof(getestudiante), new { ci = estRetorno.ci }, estRetorno);
+        }
+        [HttpPut("{ci}")]
+        public ActionResult updateestudiante(int ci, EstudianteUpdateDTO estUpdateDTO)
+        {
+            Estudiante estudiante = estRepo.GetEstudianteByCi(ci);
+            if (estudiante == null)
+                return NotFound();
+            mapper.Map(estUpdateDTO, estudiante);//Hasta acá ya se está efectuando el update
+            estRepo.UpdateEstudiante(estudiante);
+            estRepo.Guardar();
+            return NoContent();
+        }
+        [HttpPatch("{ci}")]
+        public ActionResult updateparcialestudiante(int ci, JsonPatchDocument<EstudianteUpdateDTO> estPatch)
+        {
+            Estudiante estudiante = estRepo.GetEstudianteByCi(ci);
+            if (estudiante == null)
+                return NotFound();
+            EstudianteUpdateDTO estParaPatch = mapper.Map<EstudianteUpdateDTO>(estudiante);
+            estPatch.ApplyTo(estParaPatch, ModelState);
+            if (!TryValidateModel(estParaPatch))
+                return ValidationProblem(ModelState);
+
+            mapper.Map(estParaPatch, estudiante);//Hasta acá ya se está efectuando el update
+            estRepo.UpdateEstudiante(estudiante);
+            estRepo.Guardar();
+            return NoContent();
         }
     }
 }
