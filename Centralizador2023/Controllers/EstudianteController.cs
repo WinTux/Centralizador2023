@@ -69,5 +69,15 @@ namespace Centralizador2023.Controllers
             estRepo.Guardar();
             return NoContent();
         }
+        [HttpDelete("{ci}")]
+        public ActionResult eliminarestudiante(int ci)
+        {
+            Estudiante estudiante = estRepo.GetEstudianteByCi(ci);
+            if (estudiante == null)
+                return NotFound();
+            estRepo.ElimanrEstudiante(estudiante);
+            estRepo.Guardar();
+            return NoContent();
+        }
     }
 }

@@ -19,7 +19,9 @@ namespace Centralizador2023.Repositorios
 
         public void ElimanrEstudiante(Estudiante est)
         {
-            //Continuar!!
+            if(est == null)
+                throw new ArgumentNullException(nameof(est));
+            cont.Estudiantes.Remove(est);
         }
 
         public Estudiante GetEstudianteByCi(int ci)
