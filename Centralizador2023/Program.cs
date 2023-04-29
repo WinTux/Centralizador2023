@@ -1,3 +1,4 @@
+using Centralizador2023.ComunicacionSync.http;
 using Centralizador2023.Repositorios;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
@@ -14,7 +15,8 @@ namespace Centralizador2023
 
             builder.Services.AddControllers().AddNewtonsoftJson( s => s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            builder.Services.AddDbContext<InstitutoXDbContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("una_conexion")));
+            builder.Services.AddDbContext<InstitutoXDbContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("InstitutoProd")));
+            builder.Services.AddHttpClient<ICampusHistorialCliente, ImplCampusHistorialCliente>();
             builder.Services.AddScoped<IEstudianteRepository,ImplEstudianteRepository>();
 
             var app = builder.Build();

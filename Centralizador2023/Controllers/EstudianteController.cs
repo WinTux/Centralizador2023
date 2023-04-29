@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Centralizador2023.ComunicacionSync.http;
 using Centralizador2023.DTO;
 using Centralizador2023.Models;
 using Centralizador2023.Repositorios;
@@ -13,11 +14,13 @@ namespace Centralizador2023.Controllers
     {
         private readonly IEstudianteRepository estRepo;
         private readonly IMapper mapper;
+        private readonly ICampusHistorialCliente campusHistorialCliente;
 
-        public EstudianteController(IEstudianteRepository repo, IMapper mapper)
+        public EstudianteController(IEstudianteRepository repo, IMapper mapper, ICampusHistorialCliente campusHistorialCliente)
         {
             estRepo = repo;
             this.mapper = mapper;
+            this.campusHistorialCliente = campusHistorialCliente;
         }
         [HttpGet]
         public ActionResult<IEnumerable<EstudianteReadDTO>> getestudiantes()
@@ -34,12 +37,19 @@ namespace Centralizador2023.Controllers
             return NotFound();
         }
         [HttpPost]
-        public ActionResult<EstudianteReadDTO> setestudiantes(EstudianteCreateDTO estCreateDTO)
+        public async Task<ActionResult<EstudianteReadDTO>> setestudiantes(EstudianteCreateDTO estCreateDTO)
         {
             Estudiante estudiante = mapper.Map<Estudiante>(estCreateDTO);
             estRepo.AddEstudiante(estudiante);
             estRepo.Guardar();
             EstudianteReadDTO estRetorno = mapper.Map<EstudianteReadDTO>(estudiante);
+
+            try {
+                await campusHistorialCliente.ComunicarseConCampus(estRetorno);
+            } catch (Exception e) {
+                Console.WriteLine($"Ocurrió un error al comunicarse con Campus de forma sincronizada: {e.Message}");
+            }
+
             return CreatedAtRoute(nameof(getestudiante), new { ci = estRetorno.ci }, estRetorno);
         }
         [HttpPut("{ci}")]
