@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Centralizador2023.DTO
+﻿namespace Campus.DTO
 {
     public class EstudiantePublisherDTO
     {
@@ -9,6 +7,5 @@ namespace Centralizador2023.DTO
         public string apellido { get; set; }
         public DateTime fecha_nac { get; set; }
         public string tipoEvento { get; set; }
-        
     }
 }

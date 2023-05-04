@@ -35,6 +35,11 @@ namespace Campus.Conexion
             return contexto.Estudiantes.Any(est => est.ci == ci);
         }
 
+        public bool ExisteEstudianteForaneo(int fci)
+        {
+            return contexto.Estudiantes.Any(es => es.fci == fci);
+        }
+
         public IEnumerable<Estudiante> GetEstudiantes()
         {
             return contexto.Estudiantes.ToList();

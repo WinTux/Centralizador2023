@@ -13,6 +13,8 @@ namespace Campus.Conexion
         IEnumerable<Perfil> GetPerfilesDeEstudiante(int ci);
         void CrearPerfil(int ci, Perfil per);
 
+        bool ExisteEstudianteForaneo(int fci);
+
         bool Guardar();
     }
 }

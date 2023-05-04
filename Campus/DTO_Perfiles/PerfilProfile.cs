@@ -11,6 +11,7 @@ namespace Campus.DTO_Perfiles
             CreateMap<Estudiante, EstudianteReadDTO>();
             CreateMap<Perfil, PerfilReadDTO>();
             CreateMap<PerfilCreateDTO, Perfil>();
+            CreateMap<EstudiantePublisherDTO, Estudiante>().ForMember(destino => destino.fci, opcion => opcion.MapFrom(fuente => fuente.ci));
         }
     }
 }

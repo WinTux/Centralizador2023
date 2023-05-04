@@ -1,4 +1,7 @@
+using Campus.ComunicacionAsync;
 using Campus.Conexion;
+using Campus.Eventos;
+using Microsoft.EntityFrameworkCore;
 
 namespace Campus
 {
@@ -13,6 +16,13 @@ namespace Campus
             builder.Services.AddControllers();
 
             builder.Services.AddScoped<IPerfilRepository, ImplPerfilRepository>();
+
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            builder.Services.AddDbContext<CampusDbContext>(op=>op.UseInMemoryDatabase("miDb"));
+            builder.Services.AddSingleton<IProcesadorDeEventos, ProcesadorDeEventos>();
+
+            builder.Services.AddHostedService<BusDeMensajesSuscriptor>();
 
             var app = builder.Build();
 

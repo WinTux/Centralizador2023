@@ -1,3 +1,4 @@
+using Centralizador2023.ComunicacionAsync;
 using Centralizador2023.ComunicacionSync.http;
 using Centralizador2023.Repositorios;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace Centralizador2023
             builder.Services.AddDbContext<InstitutoXDbContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("InstitutoProd")));
             builder.Services.AddHttpClient<ICampusHistorialCliente, ImplCampusHistorialCliente>();
             builder.Services.AddScoped<IEstudianteRepository,ImplEstudianteRepository>();
+            builder.Services.AddSingleton<IBusDeMensajesCliente, ImplBusDeMensajesCliente>();
 
             var app = builder.Build();
 

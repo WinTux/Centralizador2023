@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Centralizador2023.ComunicacionAsync;
 using Centralizador2023.ComunicacionSync.http;
 using Centralizador2023.DTO;
 using Centralizador2023.Models;
@@ -15,12 +16,14 @@ namespace Centralizador2023.Controllers
         private readonly IEstudianteRepository estRepo;
         private readonly IMapper mapper;
         private readonly ICampusHistorialCliente campusHistorialCliente;
+        private readonly IBusDeMensajesCliente busDeMensajesCliente;
 
-        public EstudianteController(IEstudianteRepository repo, IMapper mapper, ICampusHistorialCliente campusHistorialCliente)
+        public EstudianteController(IEstudianteRepository repo, IMapper mapper, ICampusHistorialCliente campusHistorialCliente, IBusDeMensajesCliente busDeMensajesCliente)
         {
             estRepo = repo;
             this.mapper = mapper;
             this.campusHistorialCliente = campusHistorialCliente;
+            this.busDeMensajesCliente = busDeMensajesCliente;
         }
         [HttpGet]
         public ActionResult<IEnumerable<EstudianteReadDTO>> getestudiantes()
@@ -48,6 +51,14 @@ namespace Centralizador2023.Controllers
                 await campusHistorialCliente.ComunicarseConCampus(estRetorno);
             } catch (Exception e) {
                 Console.WriteLine($"Ocurrió un error al comunicarse con Campus de forma sincronizada: {e.Message}");
+            }
+
+            try {
+                var estudiantePublisherDTO = mapper.Map<EstudiantePublisherDTO>(estRetorno);
+                estudiantePublisherDTO.tipoEvento = "estudiante_publicado";
+                busDeMensajesCliente.PublicarNuevoEstudiante(estudiantePublisherDTO);
+            } catch (Exception e) {
+                Console.WriteLine($"Ocurrió un error al tratar de publicar: {e.Message}");
             }
 
             return CreatedAtRoute(nameof(getestudiante), new { ci = estRetorno.ci }, estRetorno);

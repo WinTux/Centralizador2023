@@ -12,6 +12,7 @@ namespace Centralizador2023.DTO_perfiles
             CreateMap<EstudianteCreateDTO, Estudiante> ();// -->
             CreateMap<EstudianteUpdateDTO, Estudiante>();// -->
             CreateMap<Estudiante, EstudianteUpdateDTO>();// -->
+            CreateMap<EstudianteReadDTO, EstudiantePublisherDTO>();
         }
     }
 }
